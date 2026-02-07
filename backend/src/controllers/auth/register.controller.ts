@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { createUser, findUserByEmail } from "../services/user.service.js";
+import { createUser, findUserByEmail } from "../../services/user.service.js";
 
 const SALT_ROUNDS = 10;
 
@@ -12,6 +12,7 @@ export async function register(req: Request, res: Response) {
   }
 
   const existingUser = await findUserByEmail(email);
+
   if (existingUser) {
     return res.status(409).json({ message: "Email already in use" });
   }
