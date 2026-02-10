@@ -42,8 +42,8 @@ export async function refresh(req: Request, res: Response) {
 
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict",
+    secure: false,
+    sameSite: "lax",
     path: "/auth/refresh",
   });
 
