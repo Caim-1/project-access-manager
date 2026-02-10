@@ -29,8 +29,8 @@ export async function login(req: Request, res: Response) {
 
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict",
+    secure: false, // Should be true in production
+    sameSite: "lax", // Consider strict for greater security
     path: "/auth/refresh",
   });
 
