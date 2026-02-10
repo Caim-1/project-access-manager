@@ -9,6 +9,14 @@ export async function createUser(email: string, passwordHash: string) {
   return result.rows[0];
 }
 
+export async function findById(userId: string) {
+  const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [
+    userId,
+  ]);
+
+  return result.rows[0];
+}
+
 export async function findUserByEmail(email: string) {
   const result = await pool.query(`SELECT * FROM users WHERE email = $1`, [
     email,
