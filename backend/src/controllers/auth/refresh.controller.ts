@@ -22,7 +22,7 @@ export async function refresh(req: Request, res: Response) {
   const storedTokens = await db.refreshTokens.findByUserId(payload.userId);
 
   const matchingToken = storedTokens.find((rt) =>
-    bcrypt.compare(token, rt.tokenHash),
+    bcrypt.compare(token, rt.token_hash),
   );
 
   if (!matchingToken) return res.sendStatus(403);
