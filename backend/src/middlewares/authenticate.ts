@@ -26,7 +26,7 @@ export function authenticate(
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as {
       userId: string;
       email: string;
     };
