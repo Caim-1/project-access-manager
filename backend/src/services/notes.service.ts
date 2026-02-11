@@ -20,5 +20,5 @@ export async function getNotesByUser(userId: string) {
     [userId],
   );
 
-  return result.rows[0];
+  return result.rows;
 }
