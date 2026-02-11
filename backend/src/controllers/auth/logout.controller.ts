@@ -9,7 +9,7 @@ export async function logout(req: Request, res: Response) {
     const storedTokens = await db.refreshTokens.findAll();
 
     for (const rt of storedTokens) {
-      const match = await bcrypt.compare(token, rt.tokenHash);
+      const match = await bcrypt.compare(token, rt.token_hash);
 
       if (match) {
         await db.refreshTokens.delete(rt.id);
@@ -18,6 +18,6 @@ export async function logout(req: Request, res: Response) {
     }
   }
 
-  res.clearCookie("refreshToken", { path: "/auth/refresh" });
+  res.clearCookie("refreshToken");
   res.sendStatus(204);
 }

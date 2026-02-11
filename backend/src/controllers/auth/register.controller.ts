@@ -37,7 +37,6 @@ export async function register(req: Request, res: Response) {
     httpOnly: true,
     secure: false,
     sameSite: "lax",
-    path: "/auth/refresh",
   });
 
   res.json({ accessToken: newAccessToken });
