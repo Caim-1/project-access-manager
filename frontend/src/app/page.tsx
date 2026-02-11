@@ -1,14 +1,17 @@
-// "use client";
+"use client";
 
 import Image from "next/image";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { useAuth } from "@/auth/useAuth";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("refreshToken");
+  const { accessToken, loading } = useAuth();
 
-  if (token) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (accessToken) {
     redirect("/profile");
   }
 
