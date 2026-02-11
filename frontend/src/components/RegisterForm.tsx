@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "@/auth/useAuth";
 import { redirect } from "next/navigation";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const { setAccessToken } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ export default function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`http://localhost:3001/auth/login`, {
+      const res = await fetch(`http://localhost:3001/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -29,15 +29,6 @@ export default function LoginForm() {
       setIsSubmitting(false);
     }
   }
-
-  // async function logout() {
-  //   await fetch("/auth/logout", {
-  //     method: "POST",
-  //     credentials: "include",
-  //   });
-
-  //   setAccessToken(null);
-  // }
 
   return (
     <form
@@ -83,7 +74,7 @@ export default function LoginForm() {
         disabled={isSubmitting}
         className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Signing in..." : "Sign in"}
+        {isSubmitting ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

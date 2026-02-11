@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAuth } from "../auth/useAuth";
-import { getMe } from "../lib/getMe";
+import { useAuth } from "@/auth/useAuth";
+import { getMe } from "@/lib/getMe";
 import { redirect } from "next/navigation";
 
 export type UserDTO = {
@@ -23,6 +23,15 @@ export default function Profile() {
       });
   }, [accessToken]);
 
+  async function logout() {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    setAccessToken(null);
+  }
+
   if (loading) {
     return <div>Loading session...</div>;
   }
@@ -37,6 +46,13 @@ export default function Profile() {
     <div>
       <div>User ID: {user.id}</div>
       <div>Email: {user.email}</div>
+      <button
+        className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={() => logout()}
+        type="button"
+      >
+        Log out
+      </button>
     </div>
   );
 }

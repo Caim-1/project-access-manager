@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../auth/useAuth";
 import { redirect } from "next/navigation";
+import { useAuth } from "@/auth/useAuth";
 
-export default function RegisterForm() {
-  const { setAccessToken } = useAuth();
+export default function LoginForm() {
+  const { accessToken, setAccessToken } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,7 +15,7 @@ export default function RegisterForm() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`http://localhost:3001/auth/register`, {
+      const res = await fetch(`http://localhost:3001/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -74,7 +74,7 @@ export default function RegisterForm() {
         disabled={isSubmitting}
         className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Submitting..." : "Submit"}
+        {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
     </form>
   );

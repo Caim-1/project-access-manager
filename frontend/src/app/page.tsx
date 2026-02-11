@@ -1,7 +1,17 @@
-import Image from "next/image";
-import LoginForm from "./components/LoginFrom";
+// "use client";
 
-export default function Home() {
+import Image from "next/image";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("refreshToken");
+
+  if (token) {
+    redirect("/profile");
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center gap-20 py-32 px-16 bg-white sm:items-start">
