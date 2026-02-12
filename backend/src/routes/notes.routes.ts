@@ -6,7 +6,10 @@ const router = Router();
 
 // All notes routes require authentication
 router.use(authenticate);
-router.post("/", notesController.create);
 router.get("/", notesController.list);
+router.get("/:id", notesController.getOne);
+router.post("/", notesController.create);
+router.put("/:id", notesController.update);
+router.delete("/:id", notesController.remove);
 
 export default router;
