@@ -6,9 +6,10 @@ export async function createNote(
   title: string,
   content: string,
 ) {
+  const id = uuidv4();
   const result = await pool.query(
     `INSERT INTO notes (id, user_id, title, content) VALUES ($1, $2, $3, $4) RETURNING id, title, content`,
-    [uuidv4, userId, title, content],
+    [id, userId, title, content],
   );
 
   return result.rows[0];
