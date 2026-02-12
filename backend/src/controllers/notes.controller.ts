@@ -60,9 +60,9 @@ export async function remove(req: Request, res: Response) {
   const userId = req.user!.userId;
   const { id } = req.params;
 
-  const note = await deleteNote(id as string, userId);
+  const deletedCount = await deleteNote(id as string, userId);
 
-  if (!note) {
+  if (deletedCount === 0) {
     return res.status(404).json({ message: "Note not found" });
   }
 

@@ -53,5 +53,5 @@ export async function deleteNote(noteId: string, userId: string) {
     [noteId, userId],
   );
 
-  return result.rows[0];
+  return result.rowCount;
 }
