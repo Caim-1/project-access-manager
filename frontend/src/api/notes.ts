@@ -20,7 +20,6 @@ export async function getNotes(
   return res.json();
 }
 
-// Create a new note
 export async function createNote(
   title: string,
   content: string,
@@ -45,7 +44,6 @@ export async function createNote(
   return res.json();
 }
 
-// Update note
 export async function updateNote(
   id: string,
   title: string,
@@ -71,7 +69,6 @@ export async function updateNote(
   return res.json();
 }
 
-// Delete note
 export async function deleteNote(
   id: string,
   accessToken: string | null,
@@ -90,5 +87,5 @@ export async function deleteNote(
     throw new Error("Failed to delete note");
   }
 
-  return res.json();
+  return;
 }
