@@ -4,7 +4,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/auth/useAuth";
 
-export default async function Home() {
+export default function Home() {
   const { accessToken, loading } = useAuth();
 
   if (loading) {
