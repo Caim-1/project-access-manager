@@ -1,33 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/auth/useAuth";
-import { getNotes, createNote } from "@/api/notes";
+import { getNotes, createNote, deleteNote } from "@/api/notes";
 import { NoteDTO } from "@/types/index";
 
 export default function NotesPage() {
+  const router = useRouter();
   const { accessToken, setAccessToken, loading } = useAuth();
   const [notes, setNotes] = useState<NoteDTO[]>([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  // Redirect effect
+  useEffect(() => {
+    if (!loading && !accessToken) {
+      router.push("/login");
+    }
+  }, [loading, accessToken, router]);
+
   // Load notes on page load
   useEffect(() => {
-    if (!accessToken) return;
+    if (!loading && accessToken) {
+      getNotes(accessToken, setAccessToken).then(setNotes).catch(console.error);
+    }
+  }, [loading, accessToken, setAccessToken]);
 
-    getNotes(accessToken, setAccessToken).then(setNotes).catch(console.error);
-  }, [accessToken]);
-
+  // Render logic after hooks
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!accessToken) {
-    redirect("/login");
-  }
-
-  async function handleCreate() {
+  async function handleSubmit() {
     const note = await createNote(title, content, accessToken, setAccessToken);
 
     // Optimistically update UI
@@ -36,13 +41,24 @@ export default function NotesPage() {
     setContent("");
   }
 
+  async function handleDelete(noteId: string) {
+    try {
+      await deleteNote(noteId, accessToken, setAccessToken);
+      console.log(typeof noteId);
+      console.log(typeof notes[0]?.id);
+      setNotes((prev) => prev.filter((n) => n.id !== noteId));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black ">
         Notes
       </h1>
 
-      <form action="" className="flex flex-col gap-6">
+      <form action={handleSubmit} className="flex flex-col gap-6">
         <div>
           <label
             htmlFor="title"
@@ -78,7 +94,6 @@ export default function NotesPage() {
 
         <button
           className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-          onClick={handleCreate}
           type="submit"
         >
           Create
@@ -90,6 +105,9 @@ export default function NotesPage() {
           <li key={note.id}>
             <strong>{note.title}</strong>
             <p>{note.content}</p>
+            <button type="button" onClick={() => handleDelete(note.id)}>
+              Remove
+            </button>
           </li>
         ))}
       </ul>

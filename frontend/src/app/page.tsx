@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/auth/useAuth";
 
 export default function Home() {
+  const router = useRouter();
   const { accessToken, loading } = useAuth();
 
   if (loading) {
@@ -12,7 +13,7 @@ export default function Home() {
   }
 
   if (accessToken) {
-    redirect("/profile");
+    router.push("/profile");
   }
 
   return (

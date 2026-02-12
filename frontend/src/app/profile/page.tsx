@@ -1,8 +1,9 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useAuth } from "@/auth/useAuth";
 import { getMe } from "@/lib/getMe";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export type UserDTO = {
   id: string;
@@ -10,6 +11,7 @@ export type UserDTO = {
 };
 
 export default function Profile() {
+  const router = useRouter();
   const { accessToken, setAccessToken, loading } = useAuth();
   const [user, setUser] = useState<UserDTO | null>(null);
 
@@ -19,7 +21,7 @@ export default function Profile() {
     getMe(accessToken, setAccessToken)
       .then(setUser)
       .catch(() => {
-        redirect("/login");
+        router.push("/login");
       });
   }, [accessToken]);
 
@@ -37,7 +39,7 @@ export default function Profile() {
   }
 
   if (!accessToken) {
-    redirect("/login");
+    router.push("/login");
   }
 
   if (!user) return <div>Loading...</div>;
