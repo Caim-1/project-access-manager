@@ -37,68 +37,66 @@ export default function NotesPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white sm:items-start">
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black ">
-            Notes
-          </h1>
+    <>
+      <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black ">
+        Notes
+      </h1>
 
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Title
-            </label>
-            <input
-              id="title"
-              type="text"
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="content"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Content
-            </label>
-            <textarea
-              id="content"
-              required
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-
-          <button
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={handleCreate}
-            type="button"
+      <form action="" className="flex flex-col gap-6">
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
           >
-            Create
-          </button>
-
-          <ul>
-            {notes.map((note) => (
-              <li key={note.id}>
-                <strong>{note.title}</strong>
-                <p>{note.content}</p>
-              </li>
-            ))}
-          </ul>
-
-          <a href="/profile" className="font-medium text-zinc-950">
-            Profile
-          </a>
+            Title
+          </label>
+          <input
+            id="title"
+            type="text"
+            required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
         </div>
-      </main>
-    </div>
+
+        <div>
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Content
+          </label>
+          <textarea
+            id="content"
+            required
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+        </div>
+
+        <button
+          className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          onClick={handleCreate}
+          type="submit"
+        >
+          Create
+        </button>
+      </form>
+
+      <ul>
+        {notes.map((note) => (
+          <li key={note.id}>
+            <strong>{note.title}</strong>
+            <p>{note.content}</p>
+          </li>
+        ))}
+      </ul>
+
+      <a href="/profile" className="font-medium text-zinc-950">
+        Profile
+      </a>
+    </>
   );
 }
