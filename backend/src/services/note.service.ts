@@ -55,3 +55,34 @@ export async function deleteNote(noteId: string, userId: string) {
 
   return result.rowCount;
 }
+
+/**
+ * Get paginated notes for user
+ */
+export async function getPaginatedNotes(
+  userId: string,
+  page: number,
+  limit: number,
+) {
+  // Calculate offset for SQL
+  const offset = (page - 1) * limit;
+
+  // Fetch paginated notes
+  const notesResult = await pool.query(
+    `SELECT * FROM notes WHERE user_id = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3`,
+    [userId, limit, offset],
+  );
+
+  // Fetch total count (for pagination metadata)
+  const countResult = await pool.query(
+    `SELECT COUNT(*) FROM notes WHERE user_id = $1`,
+    [userId],
+  );
+
+  const total = parseInt(countResult.rows[0].count, 10);
+
+  return {
+    data: notesResult.rows,
+    total,
+  };
+}
