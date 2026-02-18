@@ -3,7 +3,7 @@ import {
   createNote,
   deleteNote,
   getNoteById,
-  getNotesByUser,
+  getPaginatedNotes,
   updateNote,
 } from "../services/notes.service.js";
 
@@ -24,9 +24,19 @@ export async function create(req: Request, res: Response) {
 export async function list(req: Request, res: Response) {
   const userId = req.user!.userId;
 
-  const notes = await getNotesByUser(userId);
+  // Extract query params with defaults
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
 
-  res.json(notes);
+  if (page < 1 || limit < 1) {
+    throw new AppError("Invalid pagination parameters", 400);
+  }
+
+  const { data, total } = await getPaginatedNotes(userId, page, limit);
+
+  const totalPages = Math.ceil(total / limit);
+
+  res.json({ data, page, limit, total, totalPages });
 }
 
 export async function getOne(req: Request, res: Response) {
