@@ -5,7 +5,8 @@ import {
   getNoteById,
   getPaginatedNotes,
   updateNote,
-} from "../services/notes.service.js";
+} from "../services/note.service.js";
+import { AppError, NotFoundError } from "../utils/AppError.js";
 
 export async function create(req: Request, res: Response) {
   // `authenticate` guarantees req.user exists
@@ -46,7 +47,7 @@ export async function getOne(req: Request, res: Response) {
   const note = await getNoteById(id as string, userId);
 
   if (!note) {
-    return res.status(404).json({ message: "Note not found" });
+    throw new NotFoundError("Note not found");
   }
 
   res.json(note);
@@ -60,7 +61,7 @@ export async function update(req: Request, res: Response) {
   const note = await updateNote(id as string, userId, title, content);
 
   if (!note) {
-    return res.status(404).json({ message: "Note not found" });
+    throw new NotFoundError("Note not found");
   }
 
   res.json(note);
@@ -73,7 +74,7 @@ export async function remove(req: Request, res: Response) {
   const deletedCount = await deleteNote(id as string, userId);
 
   if (deletedCount === 0) {
-    return res.status(404).json({ message: "Note not found" });
+    throw new NotFoundError("Note not found");
   }
 
   res.sendStatus(204);
